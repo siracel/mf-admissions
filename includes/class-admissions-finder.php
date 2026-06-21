@@ -82,6 +82,10 @@ class Admissions_Finder {
 					$post    = get_post( $page_id );
 					$excerpt = $post ? wp_trim_words( wp_strip_all_tags( strip_shortcodes( $post->post_content ) ), 28, '…' ) : '';
 				}
+				// Decode HTML entities (e.g. &#8217; → ’) so the JS renderer, which
+				// escapes once on insert, does not double-encode them.
+				$title   = html_entity_decode( $title, ENT_QUOTES, 'UTF-8' );
+				$excerpt = html_entity_decode( $excerpt, ENT_QUOTES, 'UTF-8' );
 				if ( has_post_thumbnail( $page_id ) ) {
 					$image = (string) get_the_post_thumbnail_url( $page_id, 'large' );
 				}
