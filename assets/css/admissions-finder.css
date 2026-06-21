@@ -1,0 +1,379 @@
+/* Admissions — Program Finder
+   İsabet kimliği: koyu yeşil + serif başlık, sıcak parşömen sonuç kartı.
+   Tüm seçiciler .admissions-finder altına kapsüllenmiştir; tema ile çakışmaz. */
+
+.admissions-finder {
+	--af-green: #1c5d4c;
+	--af-green-700: #16493b;
+	--af-green-050: #eef3f1;
+	--af-ink: #1f2a26;
+	--af-muted: #637069;
+	--af-line: #e2e8e5;
+	--af-line-strong: #cdd6d2;
+	--af-surface: #f7f5ef;
+	--af-radius: 14px;
+
+	max-width: 760px;
+	margin: 0 auto;
+	color: var(--af-ink);
+	font-family: inherit;
+	-webkit-font-smoothing: antialiased;
+}
+
+.admissions-finder *,
+.admissions-finder *::before,
+.admissions-finder *::after {
+	box-sizing: border-box;
+}
+
+.admissions-finder__heading {
+	font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+	line-height: 1.2;
+	margin: 0 0 0.4rem;
+	letter-spacing: -0.01em;
+}
+
+/* Başlık altında ince yeşil imza çizgisi */
+.admissions-finder__heading::after {
+	content: "";
+	display: block;
+	width: 44px;
+	height: 3px;
+	margin-top: 0.7rem;
+	background: var(--af-green);
+	border-radius: 3px;
+}
+
+.admissions-finder__steps {
+	margin-top: 1.75rem;
+}
+
+.admissions-finder__step {
+	margin-bottom: 1.75rem;
+}
+
+.admissions-finder__step-head {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin-bottom: 0.85rem;
+}
+
+/* Numaralı adım imzası */
+.admissions-finder__num {
+	flex: 0 0 auto;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	color: var(--af-green);
+	background: var(--af-green-050);
+	border-radius: 999px;
+	padding: 0.28em 0.62em;
+	line-height: 1;
+}
+
+.admissions-finder__label {
+	margin: 0;
+	font-weight: 600;
+	font-size: 1.02rem;
+	color: var(--af-ink);
+}
+
+.admissions-finder__options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+/* ---- Adım 1: cinsiyet seçim çipleri (göstergeli, daha belirgin) ---- */
+.admissions-finder__btn {
+	-webkit-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	min-height: 48px;
+	padding: 0.7rem 1.25rem;
+	border: 1.5px solid var(--af-line-strong);
+	border-radius: 12px;
+	background: #fff;
+	color: var(--af-ink);
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.15;
+	transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.admissions-finder__btn:hover {
+	border-color: var(--af-green);
+	box-shadow: 0 1px 0 0 var(--af-green) inset, 0 1px 0 0 var(--af-green);
+}
+
+.admissions-finder__btn:focus-visible {
+	outline: 3px solid rgba(28, 93, 76, 0.45);
+	outline-offset: 2px;
+}
+
+.admissions-finder__btn[aria-pressed="true"] {
+	background: var(--af-green);
+	border-color: var(--af-green);
+	color: #fff;
+	box-shadow: none;
+}
+
+/* Cinsiyet çiplerindeki seçim göstergesi (yuvarlak + tik) */
+.admissions-finder__btn-check {
+	position: relative;
+	flex: 0 0 auto;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	border: 1.5px solid var(--af-line-strong);
+	transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.admissions-finder__btn[aria-pressed="true"] .admissions-finder__btn-check {
+	background: #fff;
+	border-color: #fff;
+}
+
+.admissions-finder__btn[aria-pressed="true"] .admissions-finder__btn-check::after {
+	content: "";
+	position: absolute;
+	left: 5px;
+	top: 2px;
+	width: 4px;
+	height: 8px;
+	border: solid var(--af-green);
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+
+/* ---- Adım 2: sınıf seçenekleri (kompakt hap düğmeler) ---- */
+.admissions-finder__options--grades .admissions-finder__btn {
+	gap: 0;
+	min-height: 44px;
+	padding: 0.6rem 1.05rem;
+	border-radius: 999px;
+	font-weight: 500;
+	flex: 0 0 auto;
+}
+
+/* ---- Sonuç kartı ---- */
+.admissions-finder__result {
+	margin-top: 0.25rem;
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.admissions-finder__result.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+.admissions-finder__card {
+	position: relative;
+	background: var(--af-surface);
+	border: 1px solid var(--af-line);
+	border-radius: var(--af-radius);
+	overflow: hidden;
+}
+
+/* Sol kenar yeşil aksan şeridi */
+.admissions-finder__card::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 5px;
+	background: var(--af-green);
+	z-index: 1;
+}
+
+.admissions-finder__card--none::before {
+	background: var(--af-line-strong);
+}
+
+/* Program görseli (sayfanın öne çıkan görseli) */
+.admissions-finder__media {
+	margin: 0;
+	background: var(--af-green-050);
+}
+
+.admissions-finder__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 16 / 7;
+	object-fit: cover;
+}
+
+.admissions-finder__body {
+	padding: 1.5rem 1.6rem;
+}
+
+.admissions-finder__card-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 0.55rem;
+}
+
+.admissions-finder__eyebrow {
+	font-size: 0.72rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--af-muted);
+	font-weight: 600;
+}
+
+.admissions-finder__badge {
+	flex: 0 0 auto;
+	font-size: 0.74rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	color: var(--af-green-700);
+	background: var(--af-green-050);
+	border: 1px solid rgba(28, 93, 76, 0.18);
+	border-radius: 999px;
+	padding: 0.32em 0.8em;
+	white-space: nowrap;
+}
+
+.admissions-finder__name {
+	font-size: clamp(1.35rem, 1.1rem + 1vw, 1.7rem);
+	line-height: 1.22;
+	margin: 0 0 0.3rem;
+	letter-spacing: -0.01em;
+}
+
+.admissions-finder__meta {
+	margin: 0 0 0.7rem;
+	font-weight: 600;
+	color: var(--af-green-700);
+	font-size: 0.95rem;
+}
+
+.admissions-finder__short {
+	margin: 0 0 0.9rem;
+	color: var(--af-muted);
+	line-height: 1.6;
+	max-width: 56ch;
+}
+
+.admissions-finder__note {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	margin: 0 0 1rem;
+	font-size: 0.9rem;
+	color: var(--af-ink);
+	background: #fff;
+	border: 1px solid var(--af-line);
+	border-radius: 10px;
+	padding: 0.6rem 0.85rem;
+}
+
+.admissions-finder__note::before {
+	content: "!";
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	margin-top: 1px;
+	font-size: 0.72rem;
+	font-weight: 700;
+	color: #fff;
+	background: var(--af-green);
+	border-radius: 50%;
+}
+
+.admissions-finder__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 0.3rem;
+}
+
+.admissions-finder__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-height: 48px;
+	padding: 0.7rem 1.5rem;
+	border-radius: 999px;
+	background: var(--af-green);
+	color: #fff !important;
+	text-decoration: none;
+	font-weight: 600;
+	border: 1.5px solid var(--af-green);
+	transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.admissions-finder__cta:hover {
+	background: var(--af-green-700);
+	border-color: var(--af-green-700);
+	color: #fff !important;
+}
+
+.admissions-finder__cta:focus-visible {
+	outline: 3px solid rgba(28, 93, 76, 0.45);
+	outline-offset: 2px;
+}
+
+.admissions-finder__cta-arrow {
+	transition: transform 0.18s ease;
+}
+
+.admissions-finder__cta:hover .admissions-finder__cta-arrow {
+	transform: translateX(3px);
+}
+
+.admissions-finder__cta--secondary {
+	background: transparent;
+	color: var(--af-green) !important;
+	border-color: var(--af-line-strong);
+}
+
+.admissions-finder__cta--secondary:hover {
+	background: #fff;
+	border-color: var(--af-green);
+	color: var(--af-green-700) !important;
+}
+
+/* ---- Mobil ---- */
+@media (max-width: 520px) {
+	.admissions-finder__options:not(.admissions-finder__options--grades) .admissions-finder__btn {
+		flex: 1 1 100%;
+		justify-content: flex-start;
+	}
+	.admissions-finder__card-head {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+	}
+	.admissions-finder__actions .admissions-finder__cta {
+		flex: 1 1 100%;
+		justify-content: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.admissions-finder__btn,
+	.admissions-finder__cta,
+	.admissions-finder__cta-arrow,
+	.admissions-finder__btn-check {
+		transition: none;
+	}
+	.admissions-finder__result {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
